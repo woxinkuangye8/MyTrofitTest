@@ -4,6 +4,10 @@ public class  Person{
     private  String  email;
     private  String  addr;
     private  int  age;
+    public  String getUsername(String type)
+    {
+        return "";
+    }
     private Person(Builder builder)
     {
         this.username=builder.username;

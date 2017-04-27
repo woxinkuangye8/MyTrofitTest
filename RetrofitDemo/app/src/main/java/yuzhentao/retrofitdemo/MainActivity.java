@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 import retrofit2.Call;
@@ -49,6 +50,21 @@ public class MainActivity extends Activity {
         });
     }
 
+    public void PointTest()
+    {
+        Point point =new Point();
+        point.setX(15);//int-->Integer-->Object
+        point.setY(10);
+        int x=(int)point.getX();
+        Log.i("test",x+"");
+
+        PointT<Integer,Integer> pointT=new PointT<Integer, Integer>();
+        pointT.setX(22);
+        pointT.setY(55);
+
+    }
+
+
     private  void myQuery()
     {
 
@@ -67,6 +83,16 @@ public class MainActivity extends Activity {
         Log.i("Test",userInterface.getAge()+"");
     }
 
+    private  static  String zhiHuUrl="https://zhuanlan.zhihu.com";
+    private void callZhiHu()
+    {
+        Retrofit retrofit=new Retrofit.Builder()
+                           .baseUrl(zhiHuUrl)
+                           .addConverterFactory(GsonConverterFactory.create())
+                           .build();
+
+    }
+
     private void query() {
 
 //        Retrofit mRetrofit=new Retrofit.Builder();
@@ -79,6 +105,18 @@ public class MainActivity extends Activity {
             public void onResponse(Call<PhoneResult> call, Response<PhoneResult> response) {
                 if (response.isSuccessful()) {
                     Log.e("yuzhentao", "获取成功");
+
+
+                    try{
+                        Person person=new Person.Builder().build();
+                        Method method=Person.class.getMethod("getUsername", String.class);
+                        method.invoke(person,"123");
+
+                    }catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+
                     PhoneResult phoneResult = response.body();
                     if (phoneResult != null) {
                         PhoneResult.RetDataEntity retDataEntity = phoneResult.getRetData();
